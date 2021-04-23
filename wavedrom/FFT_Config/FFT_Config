@@ -1,0 +1,23 @@
+{
+  
+signal: [
+  {name: 'ACLK',            wave: 'p....|..'},
+  {name: 'ARESETN',         wave: '01...|..'},
+  {name: 'START',           wave: '0.1..|.0'},
+  {name: 'FWD_INV',         wave: 'x.0..|..'},
+  {name: 'CONFIG_TDATA',    wave: 'x..=.|.x', data: ['0x00', 'DELAY_WR', 'CHECK_RD','CHECK_WD']},
+  {name: 'CONFIG_TVALID',   wave: '0..1.|.0'},
+  {name: 'CONFIG_TREADY',   wave: 'x..0.|1x'},
+  {name: 'DONE',            wave: '0....|10'},
+  {name: 'FSM_STATE',       wave: '=..=.|.=', data: ['IDLE', 'WORK', 'IDLE']}
+  
+],
+  
+  
+head:{
+   text:'Блок FFT Config'
+ },
+  
+config: { hscale: 3 }  
+
+}

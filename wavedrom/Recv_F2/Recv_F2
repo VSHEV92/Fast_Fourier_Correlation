@@ -1,0 +1,17 @@
+{signal: [
+  {name: 'ACLK',           	wave: 'p......|....'},
+  {name: 'START',           wave: '01.....|..0.'},
+  {name: 'INDATA_TDATA',    wave: 'x.==.==|==x.', data: ['DATA 0', 'DATA 1', 'DATA 2', '', 'DATA N2-2', 'DATA N2-1']},
+  {name: 'INDATA_TVALID',   wave: 'x.101..|..x.'},
+  {name: 'INDATA_TREADY',   wave: '0.1....|..0.'},
+  {name: 'BRAM_DATA',       wave: 'x.==.==|==x.', data: ['DATA 0*', 'DATA 1*', 'DATA 2*', '', 'DATA N2-2*', 'DATA N2-1*']},
+  {name: 'BRAM_ADDR',       wave: 'x.==.==|==x.', data: ['N2-1', 'N2-2', 'N2-3', '', '1', '0']},
+  {name: 'BRAM_WE',         wave: '0.101..|..0.'},
+  {name: 'DONE',           	wave: 'x0.....|.10.'},
+  {name: 'COUNTER',         wave: 'x.==.==|==x.', data: ['N2-1', 'N2-2', 'N2-3', '', '1', '0']},
+  {name: 'FSM_STATE',       wave: 'x==....|..=.', data: ['IDLE', 'READ', 'IDLE']}
+],
+
+config: { hscale: 3 },
+head:{text: 'Блок Recv F2'},
+}

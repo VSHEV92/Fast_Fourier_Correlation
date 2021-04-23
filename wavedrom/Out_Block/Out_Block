@@ -1,0 +1,17 @@
+{signal: [
+  {name: 'ACLK',           		wave: 'p.......|.....|..'},
+  {name: 'START',           	wave: '01......|.....|.0'},
+  {name: 'INDATA_TDATA',        wave: 'x.==..==|=x...|..', data: ['DATA 0', 'DATA 1', 'DATA 2', '', 'D N1+N2-1']},
+  {name: 'INDATA_TVALID',       wave: 'x.101...|..01.|.x'},
+  {name: 'INDATA_TREADY',       wave: '0.1.01..|.....|.0'},
+  {name: 'OUTDATA_TDATA',       wave: 'x.==..==|=x...|.x', data: ['DATA 0', 'DATA 1', 'DATA 2', '', 'D N1+N2-1', '0']},
+  {name: 'OUTDATA_TVALID',      wave: '0.101...|.0...|..'},
+  {name: 'OUTDATA_TREADY',      wave: 'x.1.01..|.x...|.x'},
+  {name: 'DONE',           		wave: '0.......|.....|10'},
+  {name: 'COUNTER',             wave: '=..=..==|===.=|=0', data: ['0', '1', '2', '', 'N1+N2-1', 'N1+N2', 'N1+N2+1', '', 'NFFT-1']},
+  {name: 'FSM_STATE',           wave: '=.=.....|.=...|.=', data: ['IDLE', 'WRITE', 'TRANC', 'IDLE']}
+],
+
+config: { hscale: 2 },
+head:{text: 'Блок отбрасывания нулевых отсчетов'},
+}

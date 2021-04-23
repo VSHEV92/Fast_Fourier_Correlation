@@ -1,0 +1,15 @@
+{signal: [
+  {name: 'ACLK',           	wave: 'p......|...'},
+  {name: 'START',           wave: '1......|..0'},
+  {name: 'OUTDATA_TDATA',   wave: '=......|..x', data: ['0']},
+  {name: 'OUTDATA_TVALID',  wave: '1......|..0'},
+  {name: 'OUTDATA_TREADY',  wave: '1..01..|..x'},
+  {name: 'DONE',           	wave: '0......|.10'},
+  {name: 'PAD_COUNT',       wave: '=.==.==|===', data: ['0', '1', '2', '3', '', 'NFFT-N2-2', 'NFFT-N2-1', '0']},
+  {name: 'FSM_STATE',       wave: '==.....|..=', data: ['READ', 'PAD', 'IDLE']}
+],
+
+config: { hscale: 3
+        },
+head:{text: 'Блок Read BRAM State = PAD'},
+}

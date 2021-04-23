@@ -1,0 +1,18 @@
+{signal: [
+  {name: 'ACLK',           	wave: 'p.........|....'},
+  {name: 'START',           wave: '01........|....'},
+  {name: 'BRAM_DATA',       wave: '=...===.==|==.=', data: ['DATA 0', 'DATA 1', 'DATA 2', 'DATA 3', 'DATA 4', '','DATA N2-2', 'DATA N2-1', '0']},
+  {name: 'BRAM_ADDR',       wave: '=..=..==.=|===x', data: ['ADDR', 'NEXT_ADDR', 'ADDR', 'NEXT_ADDR','', 'NEXT_ADDR', 'ADDR', 'NEXT_ADDR']},
+  {name: 'OUTDATA_TDATA',   wave: 'x.=.===.==|==.=', data: ['DATA 0', 'DATA 1', 'DATA 2', 'DATA 3', 'DATA 4', '','DATA N2-2', 'DATA N2-1', '0']},
+  {name: 'OUTDATA_TVALID',  wave: '0.1.......|....'},
+  {name: 'OUTDATA_TREADY',  wave: 'x.01..01..|.01.'},
+  {name: 'DONE',           	wave: '0.........|....'},
+  {name: 'ADDR',            wave: '=...===.==|==.=', data: ['0', '1', '2', '3', '4', '', 'N2-2', 'N2-1', '0']},
+  {name: 'NEXT_ADDR',       wave: '=...===.==|==.=', data: ['1', '2', '3', '4', '5', '', 'N2-1', 'N2', '1']},
+  {name: 'FSM_STATE',       wave: '=.=.......|...=', data: ['IDLE', 'READ', 'PAD', 'IDLE']}
+],
+
+config: { hscale: 3
+        },
+head:{text: 'Блок Read BRAM State = READ'},
+}

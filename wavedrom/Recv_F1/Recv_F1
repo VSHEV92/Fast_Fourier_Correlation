@@ -1,0 +1,17 @@
+{signal: [
+  {name: 'ACLK',           		wave: 'p.......|.....|..'},
+  {name: 'START',           	wave: '01......|.....|.0'},
+  {name: 'INDATA_TDATA',        wave: 'x.==..==|=x...|..', data: ['DATA 0', 'DATA 1', 'DATA 2', '', 'DATA N1-1']},
+  {name: 'INDATA_TVALID',       wave: 'x.101...|.x...|..'},
+  {name: 'INDATA_TREADY',       wave: '0.1.01..|.0...|..'},
+  {name: 'OUTDATA_TDATA',       wave: 'x.==..==|==...|.x', data: ['DATA 0', 'DATA 1', 'DATA 2', '', 'DATA N1-1', '0']},
+  {name: 'OUTDATA_TVALID',      wave: '0.101...|.....|.0'},
+  {name: 'OUTDATA_TREADY',      wave: 'x.1.01..|..01.|.x'},
+  {name: 'DONE',           		wave: 'x0......|.....|10'},
+  {name: 'COUNTER',             wave: 'x=.=..==|===.=|=0', data: ['0', '1', '2', '', 'N1-1', 'N1', 'N1+1', '', 'NFFT-1']},
+  {name: 'FSM_STATE',           wave: 'x==.....|.=...|.=', data: ['IDLE', 'READ', 'PAD', 'IDLE']}
+],
+
+config: { hscale: 2 },
+head:{text: 'Блок Recv F1'},
+}
