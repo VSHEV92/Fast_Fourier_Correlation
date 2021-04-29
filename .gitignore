@@ -35,5 +35,7 @@
 !hdl/tests/test_params
 !hdl/tests/test_params/*
 
+!README.md
+
 
 
