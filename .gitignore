@@ -19,3 +19,21 @@
 !docs
 !docs/*
 
+!tcl
+!tcl/*
+
+!matlab
+!matlab/*.m
+
+!hdl
+!hdl/source
+!hdl/source/*
+!hdl/package
+!hdl/package/*
+!hdl/tests
+!hdl/tests/*
+!hdl/tests/test_params
+!hdl/tests/test_params/*
+
+
+

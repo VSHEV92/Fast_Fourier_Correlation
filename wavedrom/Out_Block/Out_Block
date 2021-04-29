@@ -8,7 +8,7 @@
   {name: 'OUTDATA_TVALID',      wave: '0.101...|.0...|..'},
   {name: 'OUTDATA_TREADY',      wave: 'x.1.01..|.x...|.x'},
   {name: 'DONE',           		wave: '0.......|.....|10'},
-  {name: 'COUNTER',             wave: '=..=..==|===.=|=0', data: ['0', '1', '2', '', 'N1+N2-1', 'N1+N2', 'N1+N2+1', '', 'NFFT-1']},
+  {name: 'COUNTER',             wave: '=..=..==|===.=|=0', data: ['0', '1', '2', '', 'N1+N2-2', 'N1+N2-1', 'N1+N2', '', 'NFFT-1']},
   {name: 'FSM_STATE',           wave: '=.=.....|.=...|.=', data: ['IDLE', 'WRITE', 'TRANC', 'IDLE']}
 ],
 
