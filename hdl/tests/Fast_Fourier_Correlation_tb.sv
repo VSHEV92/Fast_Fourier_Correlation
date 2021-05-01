@@ -100,7 +100,7 @@ end
 
 // завершение проекта по тайм-ауту
 initial begin 
-    #1000_000;
+    #1000_000_000;
     $display("time = %t: Simulation timeout!", $time);
     $finish;
 end    

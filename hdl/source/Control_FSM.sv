@@ -31,7 +31,7 @@ module Control_FSM
     output logic idle
 );
 
-    enum {IDLE, CONFIG_FWD, TRAN_F1_READ_F2, TRAN_F1_DONE, READ_F2_DONE, TRAN_F2, RD_BRAM_DONE, CONFIG_INV, OUT_DATA} state;
+    enum {IDLE, CONFIG_FWD, TRANS_START, TRAN_F1_READ_F2, TRAN_F1_DONE, READ_F2_DONE, TRAN_F2, RD_BRAM_DONE, CONFIG_INV, OUT_DATA} state;
 
     // автомат управления
     always_ff @(posedge aclk)
@@ -44,8 +44,11 @@ module Control_FSM
                     state <= start ? CONFIG_FWD : IDLE;
                
                 CONFIG_FWD:
-                    state <= FFT_Config_Done ? TRAN_F1_READ_F2 : CONFIG_FWD;
+                    state <= FFT_Config_Done ? TRANS_START : CONFIG_FWD;
 
+                TRANS_START:
+                    state <= TRAN_F1_READ_F2;
+                
                 TRAN_F1_READ_F2:
                     if (Recv_F2_Done && !FFT_IP_tlast)
                         state <= READ_F2_DONE;
@@ -77,8 +80,8 @@ module Control_FSM
     // формирование выходных сигналов
     assign fwd_inv = (state == CONFIG_FWD);
     assign FFT_Config_Start = (state == CONFIG_FWD) | (state == CONFIG_INV);
-    assign Recv_F1_Start = (state == TRAN_F1_READ_F2);
-    assign Recv_F2_Start = (state == TRAN_F1_READ_F2);
+    assign Recv_F1_Start = (state == TRANS_START);
+    assign Recv_F2_Start = (state == TRANS_START);
     assign Read_BRAM_Start = (state == TRAN_F2);
     assign Out_Block_Start = (state == OUT_DATA);
     assign idle = (state == IDLE);
@@ -87,7 +90,7 @@ module Control_FSM
     always_comb
         unique case(state)
             IDLE, CONFIG_FWD, CONFIG_INV: Mux_Sel = 2'b00;
-            TRAN_F1_READ_F2, READ_F2_DONE, TRAN_F1_DONE: Mux_Sel = 2'b01;
+            TRAN_F1_READ_F2, READ_F2_DONE, TRAN_F1_DONE, TRANS_START: Mux_Sel = 2'b01;
             TRAN_F2, RD_BRAM_DONE: Mux_Sel = 2'b10;
             OUT_DATA: Mux_Sel = 2'b11;
         endcase 
@@ -96,7 +99,7 @@ module Control_FSM
     always_comb
         unique case(state)
             OUT_DATA: Demux_Sel = 2'b00;
-            IDLE, CONFIG_FWD, TRAN_F1_READ_F2, READ_F2_DONE, TRAN_F1_DONE: Demux_Sel = 2'b01;
+            IDLE, CONFIG_FWD, TRAN_F1_READ_F2, READ_F2_DONE, TRAN_F1_DONE, TRANS_START: Demux_Sel = 2'b01;
             CONFIG_INV, TRAN_F2, RD_BRAM_DONE: Demux_Sel = 2'b10;
         endcase 
 

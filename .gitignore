@@ -21,6 +21,7 @@
 
 !tcl
 !tcl/*
+tcl/test_params
 
 !matlab
 !matlab/*.m
@@ -32,10 +33,6 @@
 !hdl/package/*
 !hdl/tests
 !hdl/tests/*
-!hdl/tests/test_params
-!hdl/tests/test_params/*
-
-!README.md
 
 
 

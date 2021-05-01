@@ -21,7 +21,6 @@ config_ip_cache -import_from_project -use_cache_location ./IPs_cache
 if { [file exists IPs] != 0 } { 
 	set pattern ./IPs/*/*.xci
 	add_files [glob -nocomplain -- $pattern]
-	generate_target {simulation} [get_files ips/*/*.xci]
 } else {
     source ./tcl/create_IPs.tcl
 }

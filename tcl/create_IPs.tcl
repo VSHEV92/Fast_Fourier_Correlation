@@ -51,7 +51,7 @@ foreach NFFT $NFFT_list {
 foreach NFFT $NFFT_list {
     set FFT_Name FFT_${NFFT}
     create_ip -name xfft -vendor xilinx.com -library ip -version 9.1 -module_name $FFT_Name -dir ./IPs
-    set_property -dict [list CONFIG.transform_length $NFFT CONFIG.implementation_options {radix_2_lite_burst_io} CONFIG.scaling_options {block_floating_point} CONFIG.aresetn {true} CONFIG.output_ordering {natural_order} CONFIG.butterfly_type {use_xtremedsp_slices} CONFIG.number_of_stages_using_block_ram_for_data_and_phase_factors {0}] [get_ips $FFT_Name]
+    set_property -dict [list CONFIG.transform_length $NFFT CONFIG.phase_factor_width {34} CONFIG.rounding_modes {convergent_rounding} CONFIG.implementation_options {radix_2_lite_burst_io} CONFIG.scaling_options {block_floating_point} CONFIG.aresetn {true} CONFIG.output_ordering {natural_order} CONFIG.butterfly_type {use_xtremedsp_slices} CONFIG.number_of_stages_using_block_ram_for_data_and_phase_factors {0}] [get_ips $FFT_Name]
     generate_target {instantiation_template} [get_files ./IPs/${FFT_Name}/${FFT_Name}.xci]
     generate_target {simulation} [get_files ./IPs/${FFT_Name}/${FFT_Name}.xci]
 }

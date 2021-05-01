@@ -57,7 +57,6 @@ class Generator;
     int file_ID_imag;
     
     mailbox mb_driver;
-    mailbox mb_scoreboard;
     
     //конструктор класс
     function new(int gen_max_delay_ns);
@@ -80,9 +79,7 @@ class Generator;
         trans.set_count(count);
         delay = $urandom_range(0, gen_max_delay_ns);
         # delay; // случайная задержка
-        mb_driver.put(trans);
-        mb_scoreboard.put(trans);
-        trans.print("Generator");      
+        mb_driver.put(trans);   
     endtask
 
     // создать заданное число транзакций
@@ -121,7 +118,6 @@ class Driver;
                 if(mb_driver.try_get(trans)) begin
                     axis.tvalid <= 1'b1;
                     axis.tdata <= trans.get_data();
-                    trans.print("Driver");
                 end else
                     axis.tvalid <= 1'b0;
                 if(axis.tready && axis.tvalid) begin
@@ -171,60 +167,15 @@ class Monitor;
                 trans = new;
                 trans.set_data(axis.tdata);
                 trans.set_count(count);
-                trans.print("Monitor");
                 delay = $urandom_range(0, mon_max_delay_ns);
                 # delay; // случайная задержка
-                mb_monitor.put(trans);
+                //mb_monitor.put(trans);
                 if (count == trans_numb) // завершение работы драйвера
                     break;   
             end           
         end
         axis.tready <= 1'b0;
         $display("Monitor Done.");
-    endtask
-
-endclass
-
-// ---------------------------------------------------
-// ------------  Вычисление результата  --------------
-// ---------------------------------------------------
-class Scoreboard;
-
-    mailbox mb_monitor;
-    mailbox mb_driver_f1;
-    mailbox mb_driver_f2;
-    
-    Transaction monintor_trans;
-    Transaction driver_f1_trans;
-    Transaction driver_f2_trans;
-    
-    //конструктор класс
-    function new();
-        monintor_trans = new;
-        driver_f1_trans = new;
-        driver_f2_trans = new;
-    endfunction
-
-    // принимает данные из mailbox и передает их по axis  
-    task run(int trans_numb_f1, int trans_numb_f2, int trans_numb_corr);
-        fork
-            repeat(trans_numb_corr * (trans_numb_f1+trans_numb_f2-1)) begin
-                mb_monitor.get(monintor_trans);
-                monintor_trans.print("Score Monitor");
-            end
-
-            repeat(trans_numb_f1*trans_numb_corr) begin    
-                mb_driver_f1.get(driver_f1_trans);
-                driver_f1_trans.print("Score Driver F1");
-            end
-            
-            repeat(trans_numb_f2*trans_numb_corr) begin    
-                mb_driver_f2.get(driver_f2_trans);
-                driver_f2_trans.print("Score Driver F2");
-            end
-        join
-
-        $display("Scoreboard Done.");        
     endtask
 
 endclass
@@ -243,8 +194,7 @@ class Environment;
     Generator gen_f2;
     Driver dr_f2;
     Monitor mon;
-    Scoreboard score;
-
+    
     int file_ID_f1_real;
     int file_ID_f1_imag;
     int file_ID_f2_real;
@@ -252,8 +202,6 @@ class Environment;
 
     mailbox mb_driver_f1;
     mailbox mb_driver_f2;
-    mailbox mb_scoreboard_f1;
-    mailbox mb_scoreboard_f2;
     mailbox mb_monitor;
 
     virtual AXIS_intf #(32) axis_f1;
@@ -265,27 +213,22 @@ class Environment;
     function new (int gen_max_delay_ns, int mon_max_delay_ns);
         mb_driver_f1 = new();
         mb_driver_f2 = new();
-        mb_scoreboard_f1 = new();
-        mb_scoreboard_f2 = new();
         mb_monitor = new();
         gen_f1 = new(gen_max_delay_ns);
         dr_f1 = new();
         gen_f2 = new(gen_max_delay_ns);
         dr_f2 = new();
         mon = new(mon_max_delay_ns);
-        score = new();
     endfunction 
 
     // запуск тестового окружения
     task run();
         
         gen_f1.mb_driver = mb_driver_f1;
-        gen_f1.mb_scoreboard = mb_scoreboard_f1;
         gen_f1.file_ID_real = file_ID_f1_real;
         gen_f1.file_ID_imag = file_ID_f1_imag;
 
         gen_f2.mb_driver = mb_driver_f2;
-        gen_f2.mb_scoreboard = mb_scoreboard_f2;
         gen_f2.file_ID_real = file_ID_f2_real;
         gen_f2.file_ID_imag = file_ID_f2_imag;
 
@@ -301,10 +244,6 @@ class Environment;
         mon.mb_monitor = mb_monitor;
         mon.aclk_aresetn = aclk_aresetn;
 
-        score.mb_monitor = mb_monitor;
-        score.mb_driver_f1 = mb_scoreboard_f1;
-        score.mb_driver_f2 = mb_scoreboard_f2;
-
         fork
             gen_f1.run(trans_numb_f1*trans_numb_corr);
             gen_f2.run(trans_numb_f2*trans_numb_corr);
@@ -312,8 +251,6 @@ class Environment;
             dr_f2.run(trans_numb_f2*trans_numb_corr);
             mon.run((trans_numb_f1+trans_numb_f2-1) * trans_numb_corr);
         join
-        
-        //score.run(trans_numb_f1, trans_numb_f2, trans_numb_corr); 
         
         $finish;
        

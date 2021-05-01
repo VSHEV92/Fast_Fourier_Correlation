@@ -14,16 +14,27 @@ else
     mkdir('../test_vectors')
 end
 
-F1_samples_numb = [12];
-F2_samples_numb = [8];
-correlations_numb = [10];
-NFFT = [128];
+if exist('../tcl/test_params', 'dir')    
+    rmdir '../tcl/test_params' s
+    mkdir('../tcl/test_params')
+else
+    mkdir('../tcl/test_params')
+end
+
+
+%%% -------------------------------------------------------------------
+F1_samples_numb = [12 45 64 46 82 128 75 161 256 398 512 988 1024 1935 2048 3953 4096];
+F2_samples_numb = [8 34 64 35 70 128 67 130 256 253 512 799 1024 1689 2048 2646 4096];
+correlations_numb = [10 10 10 10 10 10 6 6 6 6 6 4 4 3 3 3 3];
+NFFT = [128 128 128 256 256 256 512 512 512 1024 1024 2048 2048 4096 4096 8192 8192];
 
 %%% -------------------------------------
 %%% создание тестового набора
 for k = 1:length(F1_samples_numb)
     vector_name = strcat('_nfft_', num2str(NFFT(k)), '_f1_', num2str(F1_samples_numb(k)),'_f2_', num2str(F2_samples_numb(k)), '_corrnumb_', num2str(correlations_numb(k)));
-    create_test_vectors_func(vector_name, NFFT(k), F1_samples_numb(k), F2_samples_numb(k), correlations_numb(k))
+    create_test_vectors_func(vector_name, NFFT(k), F1_samples_numb(k), F2_samples_numb(k), correlations_numb(k));
+    create_tcl_file_func(vector_name, NFFT(k), F1_samples_numb(k), F2_samples_numb(k), correlations_numb(k));
+    fprintf('Test nfft_%d_f1_%d_f2_%d_corrnumb_%d generated \n', NFFT(k), F1_samples_numb(k), F2_samples_numb(k), correlations_numb(k));
 end
 
 
@@ -79,4 +90,34 @@ function create_test_vectors_func(vector_name, NFFT, F1_samples_numb, F2_samples
            dlmwrite(strcat('../test_vectors/', 'corr_time_re', vector_name, '.txt'), real(Corr)', 'newline', 'pc', '-append');
            dlmwrite(strcat('../test_vectors/', 'corr_time_im', vector_name, '.txt'), imag(Corr)', 'newline', 'pc', '-append');
     end
+end
+
+%%% ----------------------------------------
+%%% создание набора tcl файлов с параметрами 
+function create_tcl_file_func(vector_name, NFFT, F1_samples_numb, F2_samples_numb, correlations_numb)
+    fileID = fopen(strcat('../tcl/test_params/', vector_name, '.tcl'),'w');
+    
+    switch NFFT
+        case 128
+            IFFT_SHIFT = 0;
+        case 256
+            IFFT_SHIFT = 1;
+        case 512
+            IFFT_SHIFT = 2;
+        case 1024
+            IFFT_SHIFT = 2;
+        case 2048
+            IFFT_SHIFT = 2;
+        case 4096
+            IFFT_SHIFT = 2;    
+        case 8192
+            IFFT_SHIFT = 2;    
+    end
+    
+    fprintf(fileID,'set IFFT_SHIFT %d\n', IFFT_SHIFT);
+    fprintf(fileID,'set NFFT %d\n', NFFT);
+    fprintf(fileID,'set N1 %d\n', F1_samples_numb);
+    fprintf(fileID,'set N2 %d\n', F2_samples_numb);
+    fprintf(fileID,'set CORRS %d\n', correlations_numb);
+    fclose(fileID);
 end
