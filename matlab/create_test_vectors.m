@@ -99,7 +99,7 @@ function create_tcl_file_func(vector_name, NFFT, F1_samples_numb, F2_samples_num
     
     switch NFFT
         case 128
-            IFFT_SHIFT = 0;
+            IFFT_SHIFT = 1;
         case 256
             IFFT_SHIFT = 1;
         case 512

@@ -35,7 +35,7 @@ set fileID [open Verification_Results.txt w]
 set_property -name {xsim.simulate.runtime} -value {100s} -objects [get_filesets sim_1]
 
 # запуск тестов
-foreach test $NFFT_2048_tests {
+foreach test $tests_list {
     source ${test}
     set_property generic "IFFT_SHIFT=$IFFT_SHIFT NFFT=$NFFT N1=$N1 N2=$N2 CORR_NUMB=$CORRS" [get_filesets sim_1]
     launch_simulation

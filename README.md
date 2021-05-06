@@ -51,7 +51,7 @@ vivado -mode batch –source tcl/create_project.tcl -notrace
 vivado -mode batch –source tcl/package_IP.tcl -notrace
 ```
 
-Упакованное ядро, появится в папке IP.  Эту папке нужно добавить в IP репозиторий проекта.
+Упакованное ядро, появится в папке IP_Core.  Эту папке нужно добавить в IP репозиторий проекта.
 
 ------
 

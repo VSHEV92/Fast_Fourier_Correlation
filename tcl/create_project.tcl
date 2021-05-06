@@ -26,7 +26,7 @@ if { [file exists IPs] != 0 } {
 }
 
 # добавляем исходники к проекту
-#add_files ./hdl/source/*.v
+add_files [glob -nocomplain -- ./hdl/source/*.v]
 add_files [glob -nocomplain -- ./hdl/source/*.sv]
 add_files [glob -nocomplain -- ./hdl/package/*.sv]
 
