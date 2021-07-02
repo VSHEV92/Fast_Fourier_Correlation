@@ -25,6 +25,10 @@ module Fast_Fourier_Correlation_top
     input  logic corr_tready
     );
 
+AXIS_intf #(32) func_1();
+AXIS_intf #(32) func_2();
+AXIS_intf #(32) corr();
+
 Fast_Fourier_Correlation
 #(
     .NFFT(NFFT)
@@ -38,15 +42,21 @@ Fast_Fourier_Correlation
     .start(start),
     .idle(idle),
     .overflow(overflow),
-    .func_1_tdata(func_1.tdata),
-    .func_1_tvalid(func_1.tvalid),
-    .func_1_tready(func_1.tready),
-    .func_2_tdata(func_2.tdata),
-    .func_2_tvalid(func_2.tvalid),
-    .func_2_tready(func_2.tready),
-    .corr_tdata(corr.tdata),
-    .corr_tvalid(corr.tvalid),
-    .corr_tready(corr.tready) 
+    .func_1(func_1),
+    .func_2(func_2),
+    .corr(corr)
 );
 
+    assign func_1_tdata = func_1.tdata;
+    assign func_1_tvalid = func_1.tvalid;
+    assign func_1_tready = func_1.tready;
+    
+    assign func_2_tdata = func_2.tdata;
+    assign func_2_tvalid = func_2.tvalid;
+    assign func_2_tready = func_2.tready;
+    
+    assign corr_tdata = corr.tdata;
+    assign corr_tvalid = corr.tvalid;
+    assign corr_tready = corr.tready;
+    
 endmodule
